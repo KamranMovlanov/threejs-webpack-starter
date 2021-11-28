@@ -6,41 +6,38 @@ import * as dat from 'dat.gui'
 // Debug
 const gui = new dat.GUI()
 
-// Canvas
+// Достали Canvas из html
 const canvas = document.querySelector('canvas.webgl')
 
-// Scene
+// Создали сцену
 const scene = new THREE.Scene()
 
-// Objects
-const geometry = new THREE.TorusGeometry( .7, .2, 16, 100 );
+// Объект(торус) с указанием размеров
+const geometry = new THREE.TorusGeometry( .8, .1, 56, 200 );
 
 // Materials
-
-const material = new THREE.MeshBasicMaterial()
-material.color = new THREE.Color(0xff0000)
+const material = new THREE.MeshBasicMaterial() //Базовый материал 
+material.color = new THREE.Color(0x115777) //Цвет
 
 // Mesh
-const sphere = new THREE.Mesh(geometry,material)
+const sphere = new THREE.Mesh(geometry,material)// Задает геометрию + материалы те что заготовили сверху
 scene.add(sphere)
 
 // Lights
+const light = new THREE.PointLight( 0xffffff, 1, 100 ); 
+light.position.set( 50, 50, 50 ); //Позиция света
+scene.add( light ); //Добавить свет в сцену
 
-const pointLight = new THREE.PointLight(0xffffff, 0.1)
-pointLight.position.x = 2
-pointLight.position.y = 3
-pointLight.position.z = 4
-scene.add(pointLight)
 
 /**
  * Sizes
  */
-const sizes = {
+const sizes = { //TODO: Изучи это
     width: window.innerWidth,
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
+window.addEventListener('resize', () => //Обработчик собитий на ихменение размера страницы TODO: запмни
 {
     // Update sizes
     sizes.width = window.innerWidth
@@ -62,12 +59,12 @@ window.addEventListener('resize', () =>
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 0
 camera.position.y = 0
-camera.position.z = 2
+camera.position.z = 3
 scene.add(camera)
 
-// Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
+// Controls Позволяет управлять объектом
+ const controls = new OrbitControls(camera, canvas)
+ controls.enableDamping = true
 
 /**
  * Renderer
@@ -90,7 +87,8 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update objects
-    sphere.rotation.y = .5 * elapsedTime
+    sphere.rotation.y = 1 * elapsedTime
+    
 
     // Update Orbital Controls
     // controls.update()
@@ -103,3 +101,16 @@ const tick = () =>
 }
 
 tick()
+
+
+/*
+TODO: 
+
+1. Вставь GLTFLoader
+2. Врубись как изменить фон
+3. Как менять материалы 
+4. Свет
+
+
+
+*/
